@@ -1,2 +1,2 @@
 # WgetJava
-A non-interactive network downloader in Java.
+Efetua um download não interativo na rede.
