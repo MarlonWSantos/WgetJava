@@ -28,69 +28,69 @@ import java.net.URL;
 public class WgetJava{
 
     //Armazena a URL do Border Router para buscar os IPs dos motes
-	private static final String GET_URL = "http://[aaaa::c30c:0:0:1]";
+  private static final String GET_URL = "http://[aaaa::c30c:0:0:1]";
 
 
     //Faz pedido ao Border Router pelo IPs da rede
-	public static void sendGET() throws IOException {
+  public static void sendGET() throws IOException {
 
     try{
 
         //Cria um objeto com a URL do Border Router
-		  URL obj = new URL(GET_URL);
+      URL obj = new URL(GET_URL);
 
         //Abre uma conexão HTTP com a URL indicada
-		  HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
         //Gera uma Exception se não houver conexão ou resposta do servidor
       con.setConnectTimeout(2000); //2segundos
 
         //Envia o pedido ao servidor
-		  con.setRequestMethod("GET");
+      con.setRequestMethod("GET");
 
         //Recebe e armazena o código de resposta dada pelo servidor
-		  int responseCode = con.getResponseCode();
+      int responseCode = con.getResponseCode();
 
         //Exibe o código de resposta recebida
       System.out.println("GET Response Code :: " + responseCode);
 
 
         //Se o código recebido for igual a HTTP_OK(200)
-		  if (responseCode == HttpURLConnection.HTTP_OK) { 
+      if (responseCode == HttpURLConnection.HTTP_OK) { 
 
           //Cria buffer para armazenar a mensagem enviada pelo servidor com os IPs dos motes
-			  BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-			  String inputLine;
+	BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	String inputLine;
 
           //Cria buffer de String que vai receber o conteúdo do buffer
-			  StringBuffer response = new StringBuffer();
+	StringBuffer response = new StringBuffer();
 
           //Enquanto linha do buffer for diferente de null,guarda uma linha da mensagem
-			  while ((inputLine = in.readLine()) != null) {
+	while ((inputLine = in.readLine()) != null) {
 
-              //Adiciona ao buffer de String o conteúdo da linha da mensagem
-				    response.append(inputLine);
-            response.append("\n");
-			  }
+            //Adiciona ao buffer de String o conteúdo da linha da mensagem
+	  response.append(inputLine);
+          response.append("\n");
+	}
 
           //Finaliza o buffer que recebeu a mensagem
-			  in.close();
+	in.close();
 
           //Exibe o conteúdo da mensagem com o IP dos motes
-		  	System.out.println(response.toString());
+	System.out.println(response.toString());
 
         //Se o código recebido for diferente de HTTP_OK(200) exibe mensagem de erro
       }else{
-			  System.out.println("Error 404: Not Found");
-		  }
+	System.out.println("Error 404: Not Found");
+      }
 
     }catch(Exception e){
       System.out.println("Servidor não responde ou demora no envio da resposta");
     }
   }
 
-	public static void main(String[] args) throws IOException {
-		sendGET();
-	}
+  public static void main(String[] args) throws IOException {
+    sendGET();
+  }
 	
 }
